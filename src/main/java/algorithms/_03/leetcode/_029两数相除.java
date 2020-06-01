@@ -1,5 +1,7 @@
 package algorithms._03.leetcode;
 
+import edu.princeton.cs.algs4.StdOut;
+
 public class _029两数相除 {
     public int divide(int dividend, int divisor) {
         boolean flag = true;
@@ -32,7 +34,9 @@ public class _029两数相除 {
 
     public static void main(String[] args) {
         _029两数相除 s = new _029两数相除();
-        s.divide(-2147483648, -1);
+//        s.divide(-2147483648, -1);
 
+        StdOut.println(Integer.MAX_VALUE);
+        StdOut.println(Integer.MIN_VALUE);
     }
 }
