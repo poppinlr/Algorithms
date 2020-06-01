@@ -12,6 +12,7 @@ public class _001两数之和 {
         }
         for (int i = 0; i < nums.length; i++) {
             int complement = target - nums[i];
+            //TODO!=i 排除本身
             if (map.containsKey(complement) && map.get(complement) != i) {
                 return new int[] { i, map.get(complement) };
             }
