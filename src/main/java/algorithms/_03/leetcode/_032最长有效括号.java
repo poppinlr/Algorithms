@@ -4,26 +4,7 @@ import java.util.Stack;
 
 public class _032最长有效括号 {
 
-
-    public int longestValidParentheses(String s) {
-        int max = 0;
-        Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '(') {
-                stack.push(i);
-            } else {
-                stack.pop();
-                if (stack.empty()) {
-                    stack.push(i);
-                } else {
-                    max = Math.max(max, i - stack.peek());
-                }
-
-            }
-        }
-        return max;
-    }
-
+    //TODO dp
     public int longestValidParentheses(String s) {
         int maxans = 0;
         Stack<Integer> stack = new Stack<>();
@@ -42,6 +23,8 @@ public class _032最长有效括号 {
         }
         return maxans;
     }
+
+
 
 
     public static void main(String[] args) {
