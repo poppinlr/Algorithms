@@ -19,13 +19,13 @@ public class _142环形链表II {
             }
         }
 
-        while (true){
-            node2 = head;
+        node2 = head;
+        while (!node1.equals(node2)){
+
             node2 = node2.next;
             node1 = node1.next;
-            if (node1.equals(node2)) {
-                return node1;
-            }
         }
+
+        return node1;
     }
 }
