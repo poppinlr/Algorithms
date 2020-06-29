@@ -3,7 +3,6 @@ package algorithms._03.leetcode;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO
 //栈
 public class _071简化路径 {
 
