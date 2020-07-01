@@ -2,28 +2,41 @@ package algorithms._03.leetcode;
 
 public class _091解码方法 {
     public int numDecodings(String s) {
-        int count = 1;
-        int total = 0;
-        while (count <= s.length()) {
-            boolean able = true;
-            for (int i = 0; i < s.length(); i = i + count) {
-                String sbStr = i + count <= s.length() ? s.substring(i, i + count) : s.substring(i);
-                if (Integer.valueOf(sbStr) >27) {
-                    able = false;
-                    break;
-                }
-            }
-            count++;
-            if (able) {
-                total++;
-            }
+        if (s.startsWith("0")) {
+            return 0;
         }
-        return total;
+
+        if (s.length() == 1) {
+            return 1;
+        }
+
+        if (s.length() == 0) {
+            return 0;
+        }
+
+//        if (s.length() == 2) {
+//            if (s.charAt(0) <= '2' && s.charAt(1) <= '6') {
+//                return 2;
+//            } else {
+//                return 1;
+//            }
+//        }
+
+        if (s.charAt(0) <= '2' && s.charAt(1) <= '6') {
+            if(numDecodings(s.substring(1))==0||numDecodings(s.substring(2))==0){
+                return 0;
+            } else {
+                return numDecodings(s.substring(1)) + numDecodings(s.substring(2));
+            }
+
+        } else {
+            return numDecodings(s.substring(2));
+        }
     }
 
     public static void main(String[] args) {
         _091解码方法 s = new _091解码方法();
 
-        int t = s.numDecodings("226");
+        int t = s.numDecodings("26");
     }
 }
