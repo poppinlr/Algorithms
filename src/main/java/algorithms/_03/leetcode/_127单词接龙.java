@@ -11,6 +11,9 @@ public class _127单词接龙 {
             //build graphMap
             for (int i = 0; i < wordList.size(); i++) {
                 String key = wordList.get(i);
+                if (key.equals(beginWord)) {
+                    return 1;
+                }
                 List<String> values = new ArrayList<>();
                 for (int j = 0; j < wordList.size(); j++) {
                     String value = wordList.get(j);
@@ -25,41 +28,54 @@ public class _127单词接龙 {
                 graphMap.put(key, values);
             }
 
-            String match = null;
-            int sum = 0;
-            for (int i = 0; i < wordList.size(); i++) {
-                if (beginWord.equals(wordList.get(i))) {
-                    match = beginWord;
-                    sum = 0;
-                } else if (beginWord.matches(wordList.get(i))) {
-                    match = wordList.get(i);
-                    sum = 1;
-                }
-                if (match == null) {
-                    continue;
-                }
 
-                List<String> l = new ArrayList<>();
-                l.add(match);
-                while (l.size() > 0) {
-                    sum++;
-                    for (String s : l) {
-                        if (s.equals(endWord)) {
-                            return sum;
-                        } else {
-                            List<String> values = graphMap.get(s);
-                            for (int j = 0; j < values.size(); j++) {
-                                if (!values.get(j).equals(s)) {
-                                    l.add(values.get(j));
+
+            String begin = null;
+            for (String value : graphMap.keySet()) {
+                if (this.match(beginWord, value)) {
+                    begin = value;
+                    break;
+                }
+            }
+
+            if (begin == null) {
+                return 0;
+            } else {
+                //markedList
+                List<String> markedList = new ArrayList<>();
+                //queue
+                List<String> queue = new ArrayList<>();
+
+                int count = 1;
+                queue.add(begin);
+                markedList.add(begin);
+                while (!queue.isEmpty()) {
+                    String s = queue.get(0);
+                    for (int i = 0; i < queue.size(); i++) {
+                        if (endWord.equals(queue.get(0))) {
+                            return count;
+                        }
+                    }
+                    queue.remove(0);
+                    count++;
+                    if (s.equals(endWord)) {
+                        return count;
+                    } else {
+                        List<String> values = graphMap.get(s);
+                        for (String value : values) {
+                            if (!markedList.contains(value)) {
+                                if (!queue.contains(value)) {
+                                    queue.add(value);
                                 }
+                                queue.add(value);
+                                markedList.add(value);
                             }
                         }
-                        l.remove(s);
                     }
+                    queue.remove(0);
                 }
-
-
             }
+
             return 0;
         } else {
             return 0;
@@ -88,7 +104,7 @@ public class _127单词接龙 {
 
     public static void main(String[] args) {
         _127单词接龙 s = new _127单词接龙();
-        s.ladderLength("loa", "cog",
-                List.of("hot", "dot", "dog", "lot", "log", "cog"));
+        int i = s.ladderLength("hit", "cog",
+                List.of("hot","dot","dog","lot","log","cog"));
     }
 }
