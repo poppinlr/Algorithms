@@ -5,22 +5,34 @@ import algorithms._03.leetcode.define.ListNode;
 public class _147对链表进行插入排序 {
 
     public ListNode insertionSortList(ListNode head) {
-        ListNode hair = new ListNode(0);
+        if (head == null || head.next == null) {
+            return head;
+        }
 
-        ListNode hairNode = hair;
+        ListNode hair = new ListNode(0);
         while (head != null) {
-            while (hairNode.next != null && head.val > hairNode.next.val) {
-                hairNode = hairNode.next;
-            }
-            ListNode tmpNode = hairNode.next;
-            ListNode tmpHead = head.next;
-            hairNode.next = head;
-            hairNode.next.next = tmpNode;
-            hairNode = hairNode.next;
-            head = tmpHead;
+            head = insert(hair, head);
         }
 
         return hair.next;
+    }
+
+    private ListNode insert(ListNode hair, ListNode head) {
+        ListNode n = head;
+        head = head.next;
+        n.next = null;
+
+        while (hair.next != null && n.val > hair.next.val) {
+            hair = hair.next;
+        }
+        if (hair.next == null) {
+            hair.next = n;
+        } else {
+            ListNode tmpNode = hair.next;
+            hair.next = n;
+            n.next = tmpNode;
+        }
+        return head;
     }
 
     public static void main(String[] args) {

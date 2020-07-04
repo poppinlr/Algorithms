@@ -5,12 +5,14 @@ import java.util.*;
 public class _127单词接龙 {
 
     Map<String, List<String>> graphMap = new HashMap<>();
+    private int count = 0;
 
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         if (wordList.contains(endWord)) {
             //build graphMap
             for (int i = 0; i < wordList.size(); i++) {
                 String key = wordList.get(i);
+                //if beginword equal word return 1
                 if (key.equals(beginWord)) {
                     return 1;
                 }
@@ -28,10 +30,10 @@ public class _127单词接龙 {
                 graphMap.put(key, values);
             }
 
-
-
+            //find first match
             String begin = null;
             for (String value : graphMap.keySet()) {
+
                 if (this.match(beginWord, value)) {
                     begin = value;
                     break;
@@ -46,40 +48,48 @@ public class _127单词接龙 {
                 //queue
                 List<String> queue = new ArrayList<>();
 
-                int count = 1;
+                count = 1;
                 queue.add(begin);
                 markedList.add(begin);
+
                 while (!queue.isEmpty()) {
-                    String s = queue.get(0);
-                    for (int i = 0; i < queue.size(); i++) {
-                        if (endWord.equals(queue.get(0))) {
-                            return count;
-                        }
-                    }
-                    queue.remove(0);
-                    count++;
-                    if (s.equals(endWord)) {
-                        return count;
-                    } else {
-                        List<String> values = graphMap.get(s);
-                        for (String value : values) {
-                            if (!markedList.contains(value)) {
-                                if (!queue.contains(value)) {
-                                    queue.add(value);
-                                }
-                                queue.add(value);
-                                markedList.add(value);
-                            }
-                        }
-                    }
-                    queue.remove(0);
+                    queue = bfs(queue, endWord, markedList);
                 }
             }
 
-            return 0;
+            return count;
         } else {
             return 0;
         }
+    }
+
+    private List<String> bfs(List<String> queue, String endWord, List<String> markedList) {
+        List<String> newQueue = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            String s = queue.get(0);
+            for (int i = 0; i < queue.size(); i++) {
+                if (endWord.equals(queue.get(0))) {
+                    return new ArrayList<>();
+                }
+            }
+            queue.remove(0);
+            count++;
+            if (s.equals(endWord)) {
+                return new ArrayList<>();
+            } else {
+                List<String> values = graphMap.get(s);
+                for (String value : values) {
+                    if (!markedList.contains(value)) {
+                        if (!newQueue.contains(value)) {
+                            newQueue.add(value);
+                        }
+                        markedList.add(value);
+                    }
+                }
+            }
+            newQueue.remove(0);
+        }
+        return newQueue;
     }
 
     private boolean match(String key, String value) {
